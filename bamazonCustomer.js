@@ -19,22 +19,43 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
   if (err) throw err;
-  start();
+
+  // Displays list of available products.
+  displayItems();
 
 });
 
-function start() {
+// Displays list of all available Items.
+var displayItems = function() {
+	var query = "Select * FROM products";
+	connection.query(query, function(err, res) {
+
+		if (err) throw err;
+
+		for (var i = 0; i < res.length; i++) {
+			console.log("Product ID: " + res[i].item_id + " || Product Name: " +
+						res[i].product_name + " || Price: " + res[i].price);
+		}
+
+		// Requests product and number of product items user wishes to purchase.
+  		requestProduct();
+	});
+};
+
+
+
+function placeOrder() {
   inquirer
     .prompt({
       name: "buySomething",
       type: "list",
-      message: "Would you like to like to buy today",
-      choices: ["BUY", "EXIT"]
+      message: "Please enter the product ID",
+      choices: ["BUY", "HOW MANY", "EXIT"]
     })
     .then(function(answer) {
       // based on their answer, either call the bid or the post functions
       if (answer.buySomething === "BUY") {
-        buyItem();
+        buyItem(answer.buySomething === "HOW MANY");
       }
       else if(answer.buySomething === "EXIT") {
         connection.end();;
@@ -42,6 +63,20 @@ function start() {
     });
 }
 
+function buySomething() {
+  inquirer
+  .prompt([
+    {
+      name: "item",
+      type: "input",
+      message: "Please enter the item number"
+    },
+    {
+      name: "item",
+      type: "input",
+      message: "Please enter the quantity"
+    },
+}
 
 
 
