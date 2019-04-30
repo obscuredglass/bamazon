@@ -44,7 +44,7 @@ function displayItems() {
       for (i = 0; i < response.length; i++) {
           //push data to table
           displayTable.push(
-              [response[i].ItemID, response[i].ProductName, response[i].DepartmentName, response[i].Price, response[i].StockQuantity]
+              [response[i].ItemIDs, response[i].product_name, response[i].department_name, response[i].price, response[i].stock_quantity]
           );
       }
       //log the completed table to console
@@ -64,7 +64,7 @@ function buySomething() {
       message: "Please enter the item number"
     },
     {
-      name: "Quantity",
+      name: "quantity",
       type: "input",
       message: "Please enter how many you would like to buy"
     },
@@ -73,21 +73,14 @@ function buySomething() {
     var IDWant = answer.ID;
     buyFromStore(IDWant, quantityWant);
   });
-  
+
+// end buySomething
+
+};
+
+// check to make sure we have enough in stock
+
+function buyFromStore(ID, quantityHave) {
+connection.query ("SELECT * FROM products WHERE ")
+
 }
-
-
-
-
-
-
-
-// // variables
-
-// var table = new table;
-
-// results.forEach (function(product)
-//   table.cell()
-
-
-// )
