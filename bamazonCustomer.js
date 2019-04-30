@@ -1,6 +1,7 @@
 // imports
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var Table = require('cli-table');
 
 // create the connection information for the sql database
 var connection = mysql.createConnection({
@@ -25,43 +26,34 @@ connection.connect(function(err) {
 
 });
 
-// Displays list of all available Items.
-var displayItems = function() {
-	var query = "Select * FROM products";
-	connection.query(query, function(err, res) {
+// Displays all available Items.
+function displayItems() {
 
-		if (err) throw err;
+  //show all ids/names/products from database.
 
-		for (var i = 0; i < res.length; i++) {
-			console.log("Product ID: " + res[i].item_id + " || Product Name: " +
-						res[i].product_name + " || Price: " + res[i].price);
-		}
+  connection.query('SELECT * FROM Products', function(error, response) {
+      if (error) { console.log(error) };
+      
+      var displayTable = new Table({
+          //declare categories
+          head: ['Item ID', 'Product Name', 'Category', 'Price', 'Quantity'],
+          //set widths to scale
+          colWidths: [10, 30, 18, 10, 14]
+      });
+      //for each row of the loop
+      for (i = 0; i < response.length; i++) {
+          //push data to table
+          displayTable.push(
+              [response[i].ItemID, response[i].ProductName, response[i].DepartmentName, response[i].Price, response[i].StockQuantity]
+          );
+      }
+      //log the completed table to console
+      console.log(displayTable.toString());
+      buySomething();
+  });
 
-		// Requests product and number of product items user wishes to purchase.
-  		requestProduct();
-	});
+
 };
-
-
-
-function placeOrder() {
-  inquirer
-    .prompt({
-      name: "buySomething",
-      type: "list",
-      message: "Please enter the product ID",
-      choices: ["BUY", "HOW MANY", "EXIT"]
-    })
-    .then(function(answer) {
-      // based on their answer, either call the bid or the post functions
-      if (answer.buySomething === "BUY") {
-        buyItem(answer.buySomething === "HOW MANY");
-      }
-      else if(answer.buySomething === "EXIT") {
-        connection.end();;
-      }
-    });
-}
 
 function buySomething() {
   inquirer
