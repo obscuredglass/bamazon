@@ -37,7 +37,7 @@ function displayItems() {
       var displayTable = new Table({
           //declare categories
           head: ['Item ID', 'Product Name', 'Category', 'Price', 'Quantity'],
-          //set widths to scale
+          //set widths of displays
           colWidths: [10, 30, 18, 10, 14]
       });
       //for each row of the loop
@@ -59,15 +59,21 @@ function buySomething() {
   inquirer
   .prompt([
     {
-      name: "item",
+      name: "ID",
       type: "input",
       message: "Please enter the item number"
     },
     {
-      name: "item",
+      name: "Quantity",
       type: "input",
-      message: "Please enter the quantity"
+      message: "Please enter how many you would like to buy"
     },
+  ]).then(function(answer) {
+    var quantityWant = answer.Quantity;
+    var IDWant = answer.ID;
+    buyFromStore(IDWant, quantityWant);
+  });
+  
 }
 
 
