@@ -78,9 +78,28 @@ function buySomething() {
 
 };
 
-// check to make sure we have enough in stock
+// check to make sure we have enough in stock and also total cost
 
 function buyFromStore(ID, quantityHave) {
-connection.query ("SELECT * FROM products WHERE ")
+connection.query ("SELECT * FROM products WHERE ItemIDs =" + ID, function(error, response) {
+if (error) throw err;
+
+if (quatityHave <= reponse[0].stock_qunatity) {
+// calc cost
+var total = response[0].price * quantityHave;
+
+console.log("Thanks for choosing this item! Great choice!");
+console.log("Your total cost for" + quantityHave + " " + response[0].product_name) 
+
+}
+
+
+
+}
+
+
+
+
+)
 
 }
