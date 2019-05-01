@@ -14,17 +14,18 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: process.env.DB_PW,
+  password: "",
+  
   database: "bamazon_db"
 });
 
-connection.connect(function(err) {
-  if (err) throw err;
+// connection.connect(function(err) {
+//   if (err) throw err;
 
-  // Displays list of available products.
-  displayItems();
+//   // Displays list of available products.
+//   displayItems();
 
-});
+// });
 
 // Displays all available Items.
 function displayItems() {
@@ -38,7 +39,7 @@ function displayItems() {
           //declare categories
           head: ['Item ID', 'Product Name', 'Category', 'Price', 'Quantity'],
           //set widths of displays
-          colWidths: [10, 30, 18, 10, 14]
+          colWidths: [10, 24, 20, 15, 19]
       });
       //for each row of the loop
       for (i = 0; i < response.length; i++) {
@@ -69,7 +70,7 @@ function buySomething() {
       message: "Please enter how many you would like to buy"
     },
   ]).then(function(answer) {
-    var quantityWant = answer.Quantity;
+    var quantityWant = answer.quantity;
     var IDWant = answer.ID;
     buyFromStore(IDWant, quantityWant);
   });
@@ -84,22 +85,19 @@ function buyFromStore(ID, quantityHave) {
 connection.query ("SELECT * FROM products WHERE ItemIDs =" + ID, function(error, response) {
 if (error) throw err;
 
-if (quatityHave <= reponse[0].stock_qunatity) {
+if (quantityHave <= response[0].stock_quantity) {
 // calc cost
 var total = response[0].price * quantityHave;
 
 console.log("Thanks for choosing this item! Great choice!");
-console.log("Your total cost for" + quantityHave + " " + response[0].product_name) 
+console.log("Your total cost for " + quantityHave + " " + response[0].product_name + " is " + total + ". Thank you for purchase!"); 
+connection.query('UPDATE Products SET stock_quantity = stock_quantity - ' + quantityHave + ' WHERE ItemIDs = ' + ID);
+        } else {
+            console.log("Our apologies. We don't have enough " + response[0].product_name + " to fulfill your order.");
+        };
+        displayItems();
+    });
 
-}
+}; //end of buyFromStore
 
-
-
-}
-
-
-
-
-)
-
-}
+displayItems();
