@@ -11,8 +11,12 @@ This is an app that starts off making tables for items, stock quantity, and "buy
 4. MySQL Workbench
 
 Screenshots:
+MySQL Workbench and schema
 ![Phase 1](/screenshots/ScreenShot1.png)
 ![Phase 2](/screenshots/ScreenShot2.png)
+Display of products
 ![Phase 3](/screenshots/ScreenShot3.png)
+Purchase first product and deduct from quantity
 ![Phase 4](/screenshots/ScreenShot4.png)
+Trying to purchase more than the quantity
 ![Phase 5](/screenshots/ScreenShot5.png)
