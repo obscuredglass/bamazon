@@ -43,7 +43,7 @@ function displayItems() {
       });
       //for each row of the loop
       for (i = 0; i < response.length; i++) {
-          //push data to table
+          //push data
           displayTable.push(
               [response[i].ItemIDs, response[i].product_name, response[i].department_name, response[i].price, response[i].stock_quantity]
           );
@@ -52,8 +52,6 @@ function displayItems() {
       console.log(displayTable.toString());
       buySomething();
   });
-
-
 };
 
 function buySomething() {
@@ -76,11 +74,8 @@ function buySomething() {
   });
 
 // end buySomething
-
 };
-
 // check to make sure we have enough in stock and also total cost
-
 function buyFromStore(ID, quantityHave) {
 connection.query ("SELECT * FROM products WHERE ItemIDs =" + ID, function(error, response) {
 if (error) throw err;
@@ -99,5 +94,4 @@ connection.query('UPDATE Products SET stock_quantity = stock_quantity - ' + quan
     });
 
 }; //end of buyFromStore
-
 displayItems();
